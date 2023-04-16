@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lipi</string>
+    <string name="title_activity_sing_up">SingUP</string>
+    <string name="title_activity_sing_in">SingIN</string>
+</resources>
