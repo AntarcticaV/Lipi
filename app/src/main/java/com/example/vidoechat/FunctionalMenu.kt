@@ -24,6 +24,7 @@ import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBlockComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.LogicFun.BackActivity
+import com.example.vidoechat.LogicFun.OpenActivity
 import com.example.vidoechat.ui.theme.BackColor
 import com.example.vidoechat.ui.theme.VidoeChatTheme
 
@@ -36,7 +37,8 @@ class FunctionalMenu : ComponentActivity() {
             tokenEnter.PlaceholderEdition("Token")
             val buttonConnect = ButtonComposable { BackActivity(this) }
             buttonConnect.NameEdition("Connect")
-            val buttonSettingAccount = ButtonComposable { OpenSetting(this) }
+            val buttonSettingAccount =
+                ButtonComposable { OpenActivity(this, Intent(this, SettingAccount::class.java)) }
             buttonSettingAccount.NameEdition("Setting account")
             val buttonLogout = ButtonComposable { BackActivity(this) }
             buttonLogout.NameEdition("Logout")
@@ -85,7 +87,7 @@ class FunctionalMenu : ComponentActivity() {
         }
     }
 
-    fun OpenSetting(context:Context){
-        context.startActivity(Intent(context,SettingAccount::class.java))
+    fun OpenSetting(context: Context) {
+        context.startActivity(Intent(context, SettingAccount::class.java))
     }
 }

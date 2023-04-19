@@ -1,6 +1,7 @@
 package com.example.vidoechat
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -40,6 +41,7 @@ import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBlockComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.LogicFun.BackActivity
+import com.example.vidoechat.LogicFun.OpenActivity
 import com.example.vidoechat.ui.theme.BackColor
 import com.example.vidoechat.ui.theme.ButtonColor
 import com.example.vidoechat.ui.theme.VidoeChatTheme
@@ -69,11 +71,14 @@ class SettingAccount : ComponentActivity() {
             backButton.NameEdition("Back")
             val changeButton = ButtonComposable { OpenChangeDialog() }
             changeButton.NameEdition("Change")
-            val buttonChangeNickname = ButtonComposable {}
+            val buttonChangeNickname =
+                ButtonComposable { OpenActivity(this, Intent(this, ChangeNickname::class.java)) }
             buttonChangeNickname.NameEdition("Change Nickname")
-            val buttonChangeImage = ButtonComposable {}
+            val buttonChangeImage =
+                ButtonComposable { OpenActivity(this, Intent(this, ChangeImage::class.java)) }
             buttonChangeImage.NameEdition("Change Image")
-            val buttonChangePassword = ButtonComposable {}
+            val buttonChangePassword =
+                ButtonComposable { OpenActivity(this, Intent(this, ChangePassword::class.java)) }
             buttonChangePassword.NameEdition("Change Password")
             Column(
                 modifier = Modifier

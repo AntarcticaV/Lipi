@@ -12,6 +12,21 @@
         android:theme="@style/Theme.VidoeChat"
         tools:targetApi="31">
         <activity
+            android:name=".ChangePassword"
+            android:exported="false"
+            android:label="@string/title_activity_change_password"
+            android:theme="@style/Theme.VidoeChat" />
+        <activity
+            android:name=".ChangeImage"
+            android:exported="false"
+            android:label="@string/title_activity_change_image"
+            android:theme="@style/Theme.VidoeChat" />
+        <activity
+            android:name=".ChangeNickname"
+            android:exported="false"
+            android:label="@string/title_activity_change_nickname"
+            android:theme="@style/Theme.VidoeChat" />
+        <activity
             android:name=".SettingAccount"
             android:exported="false"
             android:label="@string/title_activity_setting_account"

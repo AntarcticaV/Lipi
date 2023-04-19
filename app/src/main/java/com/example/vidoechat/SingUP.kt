@@ -107,11 +107,9 @@ class SingUP : ComponentActivity() {
         }
     }
 
-
-
     fun OpenMainActivity(context: Context, password: String, passwordConfirm: String) {
         if (ChackPassword(password, passwordConfirm))
-            //context.startActivity(Intent(context, MainActivity::class.java))
+        //context.startActivity(Intent(context, MainActivity::class.java))
             this.finish()
     }
 }

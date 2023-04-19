@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.ClassesForRendering.TextFieldPasswordComposable
+import com.example.vidoechat.LogicFun.OpenActivity
 import com.example.vidoechat.ui.theme.BackColor
 
 
@@ -33,9 +34,11 @@ class MainActivity : ComponentActivity() {
             val loginBox = TextBoxComposable()
             loginBox.PlaceholderEdition("Login")
             loginBox.BeforeTextEdition("Login:")
-            val buttonSingup = ButtonComposable { OpenSingUp(this) }
+            val buttonSingup =
+                ButtonComposable { OpenActivity(this, Intent(this, SingUP::class.java)) }
             buttonSingup.NameEdition("Sing up")
-            val buttonSingin = ButtonComposable { OpenSingIn(this) }
+            val buttonSingin =
+                ButtonComposable { OpenActivity(this, Intent(this, FunctionalMenu::class.java)) }
             buttonSingin.NameEdition("Sing in")
             Column(
                 modifier = Modifier
@@ -96,12 +99,5 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun OpenSingUp(content: Context) {
-        content.startActivity(Intent(content, SingUP::class.java))
-    }
-
-    fun OpenSingIn(content: Context) {
-        content.startActivity(Intent(content, FunctionalMenu::class.java))
-    }
 }
 

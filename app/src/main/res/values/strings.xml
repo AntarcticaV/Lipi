@@ -5,4 +5,7 @@
     <string name="title_activity_functional_menu">FunctionalMenu</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_setting_account">SettingAccount</string>
+    <string name="title_activity_change_nickname">ChangeNickname</string>
+    <string name="title_activity_change_image">ChangeImage</string>
+    <string name="title_activity_change_password">ChangePassword</string>
 </resources>
