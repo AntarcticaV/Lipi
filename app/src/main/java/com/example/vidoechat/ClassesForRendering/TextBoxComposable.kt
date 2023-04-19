@@ -1,5 +1,6 @@
 package com.example.vidoechat.ClassesForRendering
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,11 +22,14 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vidoechat.ui.theme.MyLightGray
+import com.example.vidoechat.ui.theme.TextBoxColor
+import kotlin.properties.ReadOnlyProperty
 
 class TextBoxComposable {
     private val textGlo = mutableStateOf("")
     private val textPlaceholder = mutableStateOf("")
     private val textBefore = mutableStateOf("")
+    private val readOnlyBoll = mutableStateOf(false)
 
     @Composable
     fun TextBoxComposable() {
@@ -38,9 +42,13 @@ class TextBoxComposable {
         val textBef = remember {
             mutableStateOf("")
         }
+        val readOnly = remember {
+            mutableStateOf(false)
+        }
         textGlo.value = text.value
         textPla.value = textPlaceholder.value
         textBef.value = textBefore.value
+        readOnly.value = readOnlyBoll.value
         Column (modifier = Modifier
             .padding(12.dp)
             .fillMaxWidth(),
@@ -60,10 +68,12 @@ class TextBoxComposable {
                 TextField(
                     value = text.value,
                     onValueChange = { newText -> text.value = newText },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     placeholder = { Text(textPla.value, fontFamily = FontFamily.Monospace) },
                     textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
-                    colors = TextFieldDefaults.textFieldColors(backgroundColor = MyLightGray)
+                    colors = TextFieldDefaults.textFieldColors(backgroundColor = TextBoxColor),
+                    readOnly = readOnly.value
                 )
             }
         }
@@ -79,5 +89,9 @@ class TextBoxComposable {
 
     fun ReturnPassword(): String {
         return textGlo.value
+    }
+
+    fun ReadOnlyEdition(readOnly:Boolean){
+        readOnlyBoll.value = readOnly
     }
 }

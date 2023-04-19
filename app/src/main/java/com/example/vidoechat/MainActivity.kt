@@ -19,12 +19,14 @@ import androidx.compose.ui.unit.dp
 import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.ClassesForRendering.TextFieldPasswordComposable
+import com.example.vidoechat.ui.theme.BackColor
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             val password = TextFieldPasswordComposable()
             password.PlaceholderEdition("Password")
             password.BeforeTextEdition("Password:")
@@ -37,7 +39,8 @@ class MainActivity : ComponentActivity() {
             buttonSingin.NameEdition("Sing in")
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .background(BackColor),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             )
@@ -98,7 +101,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun OpenSingIn(content: Context) {
-        content.startActivity(Intent(content, SingIN::class.java))
+        content.startActivity(Intent(content, FunctionalMenu::class.java))
     }
 }
 

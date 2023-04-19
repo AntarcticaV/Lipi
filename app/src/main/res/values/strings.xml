@@ -2,4 +2,7 @@
     <string name="app_name">Lipi</string>
     <string name="title_activity_sing_up">SingUP</string>
     <string name="title_activity_sing_in">SingIN</string>
+    <string name="title_activity_functional_menu">FunctionalMenu</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_setting_account">SettingAccount</string>
 </resources>

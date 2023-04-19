@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Nickname
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,12 +33,13 @@ import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBlockComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.ClassesForRendering.TextFieldPasswordComposable
+import com.example.vidoechat.LogicFun.BackActivity
 import com.example.vidoechat.LogicFun.ChackPassword
+import com.example.vidoechat.ui.theme.BackColor
 
 class SingUP : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             val emailBox = TextBoxComposable()
             emailBox.PlaceholderEdition("Email")
@@ -70,6 +72,7 @@ class SingUP : ComponentActivity() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(BackColor)
             ) {
                 emailBox.TextBoxComposable()
                 firstname.TextBoxComposable()
@@ -104,10 +107,7 @@ class SingUP : ComponentActivity() {
         }
     }
 
-    fun BackActivity(context: Context) {
-        //context.startActivity(Intent(context, MainActivity::class.java))
-        this.finish()
-    }
+
 
     fun OpenMainActivity(context: Context, password: String, passwordConfirm: String) {
         if (ChackPassword(password, passwordConfirm))

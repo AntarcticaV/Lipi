@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vidoechat.ui.theme.MyLightGray
+import com.example.vidoechat.ui.theme.TextBoxColor
 
 class TextFieldPasswordComposable {
     private val passwordGlo = mutableStateOf("")
@@ -80,7 +81,7 @@ class TextFieldPasswordComposable {
                     textStyle = TextStyle(fontSize = 15.sp, color = Color.Black),
                     placeholder = { Text(textPla.value, fontFamily = FontFamily.Monospace) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    colors = TextFieldDefaults.textFieldColors(backgroundColor = MyLightGray),
+                    colors = TextFieldDefaults.textFieldColors(backgroundColor = TextBoxColor),
                     visualTransformation = if (passwordVisible.value)
                         VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {

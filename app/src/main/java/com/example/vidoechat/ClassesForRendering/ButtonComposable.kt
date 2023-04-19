@@ -14,6 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vidoechat.ui.theme.ButtonColor
 import com.example.vidoechat.ui.theme.MyDarkGray
 
 class ButtonComposable(funkOnClick:()->Unit) {
@@ -32,7 +33,7 @@ class ButtonComposable(funkOnClick:()->Unit) {
                 .fillMaxSize(),
             shape = RoundedCornerShape(15.dp),
             onClick = { OnClickMyButton(funClick) },
-            colors = ButtonDefaults.buttonColors(backgroundColor = MyDarkGray)
+            colors = ButtonDefaults.buttonColors(backgroundColor = ButtonColor)
         ) {
             Text(
                 text = nameButton.value,
