@@ -1,8 +1,12 @@
 package com.example.vidoechat
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,25 +23,44 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.vidoechat.ClassesForRendering.ButtonComposable
+import com.example.vidoechat.ClassesForRendering.ImageComposableClass
 import com.example.vidoechat.LogicFun.BackActivity
 import com.example.vidoechat.ui.theme.BackColor
 import com.example.vidoechat.ui.theme.VidoeChatTheme
 
 class ChangeImage : ComponentActivity() {
+    var photoUri: Uri? by mutableStateOf(null)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val launcher =
+                rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                    photoUri = uri
+                }
             val buttonSave = ButtonComposable { BackActivity(this) }
             buttonSave.NameEdition("Save")
             val buttonBack = ButtonComposable { BackActivity(this) }
             buttonBack.NameEdition("Back")
-            val changeImage = ButtonComposable {}
+            val changeImage = ButtonComposable {
+                launcher.launch(
+                    PickVisualMediaRequest(
+
+                        mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            }
+            val imagePaint = ImageComposableClass()
+            imagePaint.PhotoURLEdition(photoUri)
             changeImage.NameEdition("Change Image")
             Column(
                 modifier = Modifier
@@ -50,20 +73,8 @@ class ChangeImage : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column() {
-                        Card(
-                            modifier = Modifier
-                                .padding(top = 5.dp)
-                                .height(400.dp)
-                                .width(400.dp),
-                            shape = RoundedCornerShape(360.dp)
-                        ) {
-                            Image(
-                                modifier = Modifier.fillMaxSize(),
-                                painter = painterResource(R.drawable.plug),
-                                contentDescription = ""
-                            )
-                        }
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        imagePaint.ImageComposable()
                     }
                     Column(
                         modifier = Modifier
@@ -99,5 +110,10 @@ class ChangeImage : ComponentActivity() {
                 }
             }
         }
+    }
+
+
+    fun PickImage() {
+
     }
 }
