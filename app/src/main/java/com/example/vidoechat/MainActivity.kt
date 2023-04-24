@@ -129,6 +129,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                     }
+
                 }
             }
         }
@@ -137,13 +138,13 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun SplashScreen(navController: NavController) {
         val scale = remember {
-            androidx.compose.animation.core.Animatable(0f)
+            androidx.compose.animation.core.Animatable(2f)
         }
 
         // AnimationEffect
         LaunchedEffect(key1 = true) {
             scale.animateTo(
-                targetValue = 0.7f,
+                targetValue = 2.3f,
                 animationSpec = tween(
                     durationMillis = 800,
                     easing = {
@@ -151,7 +152,9 @@ class MainActivity : ComponentActivity() {
                     })
             )
             delay(3000L)
+            navController.popBackStack()
             navController.navigate("main_screen")
+
         }
         Box(
             contentAlignment = Alignment.Center,
@@ -160,7 +163,7 @@ class MainActivity : ComponentActivity() {
             Image(
                 painter = painterResource(id = R.drawable.lipi_logo3),
                 contentDescription = "Logo",
-                modifier = Modifier.scale(3f)
+                modifier = Modifier.scale(scale.value)
             )
         }
     }
