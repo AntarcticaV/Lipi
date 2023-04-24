@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -73,6 +75,7 @@ class SingUP : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(BackColor)
+                    .verticalScroll(rememberScrollState())
             ) {
                 emailBox.TextBoxComposable()
                 firstname.TextBoxComposable()
