@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,23 +52,23 @@ class ChangeNickname : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(BackColor)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Card(
+                    Image(
                         modifier = Modifier
-                            .fillMaxHeight(0.5f)
                             .fillMaxWidth()
-                    ) {
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            painter = painterResource(R.drawable.meme_fon),
-                            contentDescription = ""
-                        )
-                    }
+                            .fillMaxHeight(0.6f)
+                            .size(300.dp),
+                        painter = painterResource(R.drawable.meme_fon),
+                        contentDescription = ""
+                    )
+
                     Column {
                         oldNickname.TextBoxComposable()
                     }

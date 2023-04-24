@@ -48,7 +48,9 @@ class ChangePassword : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(BackColor)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column(
                     modifier = Modifier
