@@ -86,8 +86,7 @@ class MainActivity : ComponentActivity() {
                         painter = painterResource(id = R.drawable.lipi_logo2),
                         contentDescription = "",
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.4f)
+                            .size(300.dp)
                             .padding(top = 100.dp)
                     )
                     Column(
