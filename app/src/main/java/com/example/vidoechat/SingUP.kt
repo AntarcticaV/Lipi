@@ -31,13 +31,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBlockComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.ClassesForRendering.TextFieldPasswordComposable
 import com.example.vidoechat.LogicFun.BackActivity
 import com.example.vidoechat.LogicFun.ChackPassword
+import com.example.vidoechat.Models.Registration
+import com.example.vidoechat.NewWork.APIService
 import com.example.vidoechat.ui.theme.BackColor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SingUP : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,10 +70,14 @@ class SingUP : ComponentActivity() {
             val backButton = ButtonComposable { BackActivity(this) }
             backButton.NameEdition("Back")
             val singUpButton = ButtonComposable {
-                OpenMainActivity(
-                    this,
+                RegistrationUser(
+                    emailBox.ReturnPassword(),
+                    firstname.ReturnPassword(),
+                    surname.ReturnPassword(),
                     password.ReturnPassword(),
-                    passwordConfirm.ReturnPassword()
+                    passwordConfirm.ReturnPassword(),
+                    nickname.ReturnPassword(),
+                    this
                 )
             }
             singUpButton.NameEdition("Sing up")
@@ -84,23 +94,24 @@ class SingUP : ComponentActivity() {
                 password.TextFieldPasswordComposable()
                 passwordConfirm.TextFieldPasswordComposable()
 
-                Row(
+                Column(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
                         .padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth(0.35f)
+                            .fillMaxSize()
                             .height(60.dp)
                     ) {
                         singUpButton.MyButtonComposable()
                     }
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth(0.5f)
+                            .padding(top = 20.dp)
+                            .fillMaxSize()
                             .height(60.dp)
                     ) {
                         backButton.MyButtonComposable()
@@ -114,6 +125,18 @@ class SingUP : ComponentActivity() {
         if (ChackPassword(password, passwordConfirm))
         //context.startActivity(Intent(context, MainActivity::class.java))
             this.finish()
+    }
+
+    fun RegistrationUser(email:String, name:String, surname:String, password: String, passwordConfirm:String, nickname:String, context: Context){
+        if (ChackPassword(password, passwordConfirm))
+            lifecycleScope.launch(Dispatchers.IO) {
+                val api = APIService.api.Registration(Registration(email,name,nickname,surname,password))
+                withContext(Dispatchers.Main){
+                    if (api.status){
+                        this@SingUP.finish()
+                    }
+                }
+            }
     }
 }
 

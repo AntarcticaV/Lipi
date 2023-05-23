@@ -3,7 +3,9 @@ package com.example.vidoechat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.OvershootInterpolator
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.tween
@@ -13,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.internal.liveLiteral
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +23,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withCreated
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,10 +32,16 @@ import androidx.navigation.compose.rememberNavController
 import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.ClassesForRendering.TextFieldPasswordComposable
+import com.example.vidoechat.LogicFun.AddUser
 import com.example.vidoechat.LogicFun.OpenActivity
+import com.example.vidoechat.Models.Auth
+import com.example.vidoechat.NewWork.APIService
 import com.example.vidoechat.ui.theme.BackColor
 import com.example.vidoechat.ui.theme.TextBoxColor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : ComponentActivity() {
@@ -67,10 +78,7 @@ class MainActivity : ComponentActivity() {
                 buttonSingup.NameEdition("Sing up")
                 val buttonSingin =
                     ButtonComposable {
-                        OpenActivity(
-                            context,
-                            Intent(context, FunctionalMenu::class.java)
-                        )
+                        AuthenticateUser(loginBox.ReturnPassword(),password.ReturnPassword(), this@MainActivity)
                     }
                 buttonSingin.NameEdition("Sing in")
                 Column(
@@ -134,13 +142,25 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    fun AuthenticateUser(nick:String, pas:String, context: Context){
+        lifecycleScope.launch(Dispatchers.IO) {
+            val api = APIService.api.Authenticate(Auth(nick, pas))
+            withContext(Dispatchers.Main){
+                if(api.status){
+                    AddUser(api)
+                    context.startActivity(Intent(context, FunctionalMenu::class.java))
+                }
+            }
+        }
+
+    }
+
     @Composable
     fun SplashScreen(navController: NavController) {
         val scale = remember {
             androidx.compose.animation.core.Animatable(2f)
         }
 
-        // AnimationEffect
         LaunchedEffect(key1 = true) {
             scale.animateTo(
                 targetValue = 2.3f,
@@ -150,10 +170,8 @@ class MainActivity : ComponentActivity() {
                         OvershootInterpolator(4f).getInterpolation(it)
                     })
             )
-            delay(3000L)
             navController.popBackStack()
             navController.navigate("main_screen")
-
         }
         Box(
             contentAlignment = Alignment.Center,
