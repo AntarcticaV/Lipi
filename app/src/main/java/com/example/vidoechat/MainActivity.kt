@@ -57,40 +57,42 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Navigation(context: Context) {
         val navController = rememberNavController()
-        NavHost(
+        NavHost( // навигация в верстке
             navController = navController,
             startDestination = "splash_screen"
         ) {
-            composable("splash_screen") {
+            composable("splash_screen") { // запуск экрана загрузки
                 SplashScreen(navController = navController)
             }
             // Main Screen
-            composable("main_screen") {
+            composable("main_screen") { // запуск экрана авторизации
 
-                val password = TextFieldPasswordComposable()
+                val password = TextFieldPasswordComposable() // создание экземпляра класса для поля ввода пароля
                 password.PlaceholderEdition("Password")
                 password.BeforeTextEdition("Password:")
-                val loginBox = TextBoxComposable()
+                val loginBox = TextBoxComposable() // создание создание экземпляра класса для поля ввода логина
                 loginBox.PlaceholderEdition("Login")
                 loginBox.BeforeTextEdition("Login:")
                 val buttonSingup =
-                    ButtonComposable { OpenActivity(context, Intent(context, SingUP::class.java)) }
+                    ButtonComposable {
+                        OpenActivity(context, Intent(context, SingUP::class.java)) // передача функции для открытия нового экрана
+                    } // создание экземпляра класса для кнопки регистрации
                 buttonSingup.NameEdition("Sing up")
                 val buttonSingin =
                     ButtonComposable {
-                        AuthenticateUser(loginBox.ReturnPassword(),password.ReturnPassword(), this@MainActivity)
-                    }
+                        AuthenticateUser(loginBox.ReturnPassword(),password.ReturnPassword(), this@MainActivity) // передача функции для отправки данных пользователя для проверки существования его
+                    } // создание экземпляра класса для кнопки входа
                 buttonSingin.NameEdition("Sing in")
-                Column(
+                Column( // контейнер который располагает элементы внутри себя по горизонтале
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(BackColor)
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxSize() // указание размера контейнера по высоте и ширине
+                        .background(BackColor) // указание цведа контейнера
+                        .verticalScroll(rememberScrollState()), // задача возможности пролистыва контейнер
+                    verticalArrangement = Arrangement.Center, // указание расположения элементов по вертикале
+                    horizontalAlignment = Alignment.CenterHorizontally // указание расположения элементов по горизонтали
                 )
                 {
-                    Image(
+                    Image( // объект картинки
                         painter = painterResource(id = R.drawable.lipi_logo2),
                         contentDescription = "",
                         modifier = Modifier
@@ -106,8 +108,8 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.End
                     )
                     {
-                        loginBox.TextBoxComposable()
-                        password.TextFieldPasswordComposable()
+                        loginBox.TextBoxComposable() // отрисовка поля для ввода логина
+                        password.TextFieldPasswordComposable() // отрисовка поля для ввода пароля
                     }
                     Column(
                         modifier = Modifier
@@ -123,7 +125,7 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxWidth(0.7f)
                                 .height(60.dp)
                         ) {
-                            buttonSingin.MyButtonComposable()
+                            buttonSingin.MyButtonComposable() // отрисовка кнопки входа
 
                         }
                         Column(
@@ -132,7 +134,7 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxWidth(0.7f)
                                 .height(60.dp)
                         ) {
-                            buttonSingup.MyButtonComposable()
+                            buttonSingup.MyButtonComposable() // отрисовка кнопки регистрации
                         }
 
                     }
@@ -143,16 +145,15 @@ class MainActivity : ComponentActivity() {
     }
 
     fun AuthenticateUser(nick:String, pas:String, context: Context){
-        lifecycleScope.launch(Dispatchers.IO) {
-            val api = APIService.api.Authenticate(Auth(nick, pas))
-            withContext(Dispatchers.Main){
-                if(api.status){
-                    AddUser(api)
-                    context.startActivity(Intent(context, FunctionalMenu::class.java))
+        lifecycleScope.launch(Dispatchers.IO) { // запуск потока IO
+            val api = APIService.api.Authenticate(Auth(nick, pas)) // запрос к серверу
+            withContext(Dispatchers.Main){ // выполнение кода в main потоке
+                if(api.status){ // проверка результата выполнения запроса
+                    AddUser(api, pas) // запись пользователя
+                    context.startActivity(Intent(context, FunctionalMenu::class.java)) // открытие новой активности
                 }
             }
         }
-
     }
 
     @Composable

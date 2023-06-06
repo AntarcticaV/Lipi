@@ -5,4 +5,6 @@ data class User(
     var id_image: Int,
     var name: String,
     var nickname: String,
-    var surname: String)
+    var surname: String,
+    var password: String
+)

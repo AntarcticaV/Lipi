@@ -21,11 +21,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextFieldPasswordComposable
 import com.example.vidoechat.LogicFun.BackActivity
+import com.example.vidoechat.LogicFun.ChackPassword
+import com.example.vidoechat.LogicFun.userSave
+import com.example.vidoechat.Models.ChechPas
+import com.example.vidoechat.NewWork.APIService
 import com.example.vidoechat.ui.theme.BackColor
 import com.example.vidoechat.ui.theme.VidoeChatTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ChangePassword : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +48,12 @@ class ChangePassword : ComponentActivity() {
             val newPasswordConfirm = TextFieldPasswordComposable()
             newPasswordConfirm.BeforeTextEdition("Confirm new password")
             newPasswordConfirm.PlaceholderEdition("Confirm new password")
-            val buttonSave = ButtonComposable { BackActivity(this) }
+            val buttonSave = ButtonComposable {
+                ChangePasswordUser(
+                    oldPassword.ReturnPassword(),
+                    newPassword.ReturnPassword(),
+                    newPasswordConfirm.ReturnPassword()
+                ) }
             buttonSave.NameEdition("Save")
             val buttonBack = ButtonComposable { BackActivity(this) }
             buttonBack.NameEdition("Back")
@@ -87,5 +100,19 @@ class ChangePassword : ComponentActivity() {
                 }
             }
         }
+    }
+
+    fun ChangePasswordUser(password: String, newPassword:String, newPasswordConfirm: String){
+        if (ChackPassword(password, userSave.password) && ChackPassword(newPassword, newPasswordConfirm)){
+            lifecycleScope.launch(Dispatchers.IO) {
+                val api = APIService.api.ChanchPassword(ChechPas(userSave.nickname, password, newPassword ))
+                withContext(Dispatchers.Main){
+                    if (api.status){
+                        this@ChangePassword.finish()
+                    }
+                }
+            }
+        }
+
     }
 }

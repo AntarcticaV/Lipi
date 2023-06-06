@@ -37,7 +37,7 @@ class FunctionalMenu : ComponentActivity() {
             val tokenEnter = TextBoxComposable()
             tokenEnter.BeforeTextEdition("Enter the token to connect")
             tokenEnter.PlaceholderEdition("Token")
-            val buttonConnect = ButtonComposable { BackActivity(this) }
+            val buttonConnect = ButtonComposable { /*OpenActivity(this,Intent(this, VideoConf::class.java))*/ }
             buttonConnect.NameEdition("Connect")
             val buttonSettingAccount =
                 ButtonComposable { OpenActivity(this, Intent(this, SettingAccount::class.java)) }

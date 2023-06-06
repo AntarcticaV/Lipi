@@ -16,22 +16,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.example.vidoechat.ClassesForRendering.ButtonComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.LogicFun.BackActivity
+import com.example.vidoechat.LogicFun.userSave
+import com.example.vidoechat.Models.ChechNick
+import com.example.vidoechat.NewWork.APIService
 import com.example.vidoechat.ui.theme.BackColor
-import com.example.vidoechat.ui.theme.VidoeChatTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChangeNickname : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,12 +37,16 @@ class ChangeNickname : ComponentActivity() {
         setContent {
             val oldNickname = TextBoxComposable()
             oldNickname.ReadOnlyEdition(true)
-            oldNickname.PlaceholderEdition("You're old")
+            oldNickname.PlaceholderEdition(userSave.nickname)
             oldNickname.BeforeTextEdition("Old Nickname")
             val changeNickname = TextBoxComposable()
             changeNickname.PlaceholderEdition("give me you're new Nickname")
             changeNickname.BeforeTextEdition("New Nickname")
-            val buttonSave = ButtonComposable { BackActivity(this) }
+            val buttonSave = ButtonComposable {
+                ChangeNicknameUser(
+                    changeNickname.ReturnPassword()
+                )
+            }
             buttonSave.NameEdition("Save")
             val buttonBack = ButtonComposable { BackActivity(this) }
             buttonBack.NameEdition("Back")
@@ -65,7 +67,7 @@ class ChangeNickname : ComponentActivity() {
                             .fillMaxWidth()
                             .fillMaxHeight(0.6f)
                             .size(300.dp),
-                        painter = painterResource(R.drawable.meme_fon),
+                        painter = painterResource(R.drawable.avatar),
                         contentDescription = ""
                     )
 
@@ -98,6 +100,15 @@ class ChangeNickname : ComponentActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    fun ChangeNicknameUser(newNickname: String){
+        lifecycleScope.launch(Dispatchers.IO) {
+            val api = APIService.api.ChenchNickname(ChechNick( userSave.nickname, newNickname))
+            if (api.status){
+                this@ChangeNickname.finish()
             }
         }
     }

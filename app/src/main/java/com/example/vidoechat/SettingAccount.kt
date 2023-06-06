@@ -44,6 +44,7 @@ import com.example.vidoechat.ClassesForRendering.TextBlockComposable
 import com.example.vidoechat.ClassesForRendering.TextBoxComposable
 import com.example.vidoechat.LogicFun.BackActivity
 import com.example.vidoechat.LogicFun.OpenActivity
+import com.example.vidoechat.LogicFun.userSave
 import com.example.vidoechat.ui.theme.BackColor
 import com.example.vidoechat.ui.theme.ButtonColor
 import com.example.vidoechat.ui.theme.VidoeChatTheme
@@ -56,17 +57,17 @@ class SettingAccount : ComponentActivity() {
             val emailText = TextBoxComposable()
             emailText.ReadOnlyEdition(true)
             emailText.BeforeTextEdition("Email")
-            emailText.PlaceholderEdition("gg.outdog.up")
+            emailText.PlaceholderEdition(userSave.email)
             val firstnameBox = TextBoxComposable()
-            firstnameBox.PlaceholderEdition("Pepe")
+            firstnameBox.PlaceholderEdition(userSave.name)
             firstnameBox.BeforeTextEdition("Firstname")
             firstnameBox.ReadOnlyEdition(true)
             val surnameBox = TextBoxComposable()
             surnameBox.ReadOnlyEdition(true)
             surnameBox.BeforeTextEdition("Surname")
-            surnameBox.PlaceholderEdition("Call me")
+            surnameBox.PlaceholderEdition(userSave.surname)
             val nicknameBox = TextBoxComposable()
-            nicknameBox.PlaceholderEdition("PepeChill")
+            nicknameBox.PlaceholderEdition(userSave.nickname)
             nicknameBox.BeforeTextEdition("Nickname")
             nicknameBox.ReadOnlyEdition(true)
             val backButton = ButtonComposable { BackActivity(this) }
@@ -77,7 +78,7 @@ class SettingAccount : ComponentActivity() {
                 ButtonComposable { OpenActivity(this, Intent(this, ChangeNickname::class.java)) }
             buttonChangeNickname.NameEdition("Change Nickname")
             val buttonChangeImage =
-                ButtonComposable { OpenActivity(this, Intent(this, ChangeImage::class.java)) }
+                ButtonComposable {  }
             buttonChangeImage.NameEdition("Change Image")
             val buttonChangePassword =
                 ButtonComposable { OpenActivity(this, Intent(this, ChangePassword::class.java)) }
@@ -104,7 +105,7 @@ class SettingAccount : ComponentActivity() {
                         ) {
                             Image(
                                 modifier = Modifier.fillMaxSize(),
-                                painter = painterResource(R.drawable.plug),
+                                painter = painterResource(R.drawable.avatar),
                                 contentDescription = ""
                             )
                         }
